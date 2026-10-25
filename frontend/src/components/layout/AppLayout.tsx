@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import BottomNav from './BottomNav'
 import ParticleBackground from '../ui/ParticleBackground'
 import OfflineBanner from '../ui/OfflineBanner'
 import InstallPrompt from '../ui/InstallPrompt'
@@ -33,7 +34,7 @@ export default function AppLayout() {
         <OfflineBanner />
       </div>
 
-      <main style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <main className="flex-1 w-full flex flex-col pb-20 md:pb-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -49,6 +50,7 @@ export default function AppLayout() {
       </main>
 
       <Footer />
+      <BottomNav />
       <InstallPrompt />
     </div>
   )

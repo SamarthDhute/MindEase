@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { AuthProvider } from './contexts/AuthContext'
 import AppLayout from './components/layout/AppLayout'
@@ -14,6 +14,28 @@ import SettingsPage from './pages/SettingsPage'
 import CognitiveTestPage from './pages/CognitiveTestPage'
 import AboutPage from './pages/AboutPage'
 import PrivacyPage from './pages/PrivacyPage'
+
+function HomeRoute() {
+  const [searchParams] = useSearchParams()
+
+  // If user explicitly passed ?home=true or ?preview=true, show landing page even on mobile
+  if (searchParams.get('home') === 'true' || searchParams.get('preview') === 'true') {
+    return <LandingPage />
+  }
+
+  // Detect mobile viewport or mobile device user agent or standalone PWA
+  const isMobile =
+    typeof window !== 'undefined' &&
+    (window.innerWidth < 768 ||
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.matchMedia('(display-mode: standalone)').matches)
+
+  if (isMobile) {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  return <LandingPage />
+}
 
 function NotFound() {
   return (
@@ -43,7 +65,7 @@ export default function App() {
 
             {/* Application pages within shared layout */}
             <Route element={<AppLayout />}>
-              <Route path="/"           element={<LandingPage />} />
+              <Route path="/"           element={<HomeRoute />} />
               <Route path="/about"      element={<AboutPage />} />
               <Route path="/privacy"    element={<PrivacyPage />} />
               <Route path="/dashboard"  element={<DashboardPage />} />

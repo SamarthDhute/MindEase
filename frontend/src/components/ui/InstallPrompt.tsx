@@ -135,7 +135,7 @@ export default function InstallPrompt() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ duration: 0.4 }}
-            className="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-md z-40 p-4 rounded-2xl glass shadow-2xl border flex flex-col gap-3"
+            className="fixed bottom-20 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-md z-40 p-4 rounded-2xl glass shadow-2xl border flex flex-col gap-3"
             style={{
               borderColor: 'var(--color-border)',
               background: 'var(--color-surface)',

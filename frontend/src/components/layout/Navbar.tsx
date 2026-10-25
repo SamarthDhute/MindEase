@@ -23,7 +23,7 @@ import { THEMES } from '../../types'
 import { useState, useEffect } from 'react'
 
 const NAV_LINKS = [
-  { to: '/',           icon: Home,            label: 'Home'       },
+  { to: '/?home=true', icon: Home,            label: 'Home'       },
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/assessment', icon: ClipboardList,    label: 'Assessment' },
   { to: '/cognitive',  icon: Brain,            label: 'Cognitive'  },
@@ -61,7 +61,7 @@ export default function Navbar() {
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 flex items-center justify-between h-16">
         {/* Left: Brand Logo */}
         <Link
-          to="/"
+          to={typeof window !== 'undefined' && window.innerWidth < 768 ? '/dashboard' : '/'}
           className="flex items-center gap-2 no-underline flex-shrink-0"
           style={{ color: 'var(--color-text)' }}
           aria-label="MindEase Home"
