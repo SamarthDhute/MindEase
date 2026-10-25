@@ -102,7 +102,7 @@ export default function AnalyzingPage() {
 
     // Call API with dynamic personalized fallback if backend is offline
     predictAssessment(answers)
-      .then(result => {
+      .then((result: AssessmentResponse) => {
         apiResolvedRef.current = true
         authRef.current.saveAssessment(answers, result)
         localStorage.setItem('me-report', JSON.stringify(result))
@@ -112,7 +112,7 @@ export default function AnalyzingPage() {
           finishAndNavigate()
         }
       })
-      .catch(err => {
+      .catch((err: unknown) => {
         console.warn('[MindEase] Backend API offline or error. Using local neural inference fallback.', err)
 
         // Dynamically compute realistic, sensitive prediction based on user's exact inputs
