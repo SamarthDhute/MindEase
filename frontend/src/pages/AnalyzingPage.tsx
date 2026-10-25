@@ -265,7 +265,7 @@ export default function AnalyzingPage() {
         const fallbackReport: AssessmentResponse = {
           attention_interference_level: level,
           confidence_percentage: conf,
-          explanation: `The model identified a ${level.toLowerCase()} level of attention interference (${conf}% confidence), shaped primarily by digital habits, rest rhythm, and thought wandering.`,
+          explanation: `Local sensitivity estimation identified a ${level.toLowerCase()} level of attention interference (${conf}% confidence based on self-reported patterns). Note: Estimated via offline heuristic fallback while backend service was connecting.`,
           contributing_factors: factors.slice(0, 4),
           personalized_suggestions: suggestions,
           global_model_factors: [],
@@ -326,7 +326,7 @@ export default function AnalyzingPage() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center text-center px-4"
+      className="min-h-[100dvh] flex flex-col items-center justify-center text-center px-4"
       style={{ background: 'var(--gradient-hero)' }}
     >
       <div

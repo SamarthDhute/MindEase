@@ -90,23 +90,24 @@ export default function CheckInPage() {
       content: (
         <div>
           {/* Mood emojis */}
-          <div className="flex justify-center gap-2.5 sm:gap-4 mb-8">
+          <div className="grid grid-cols-5 gap-1.5 sm:gap-3 mb-6 sm:mb-8">
             {MOODS.map(m => (
               <motion.button
                 key={m.value}
                 onClick={() => setMood(m.value)}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center gap-1.5 p-3 rounded-2xl transition-all"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.94 }}
+                className="flex flex-col items-center justify-center gap-1 p-2 sm:p-3 rounded-2xl transition-all cursor-pointer"
                 style={{
                   background: mood === m.value ? 'var(--color-primary)' : 'var(--color-surface)',
                   color: mood === m.value ? 'white' : 'var(--color-text)',
                   border: `2px solid ${mood === m.value ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                  minWidth: '60px',
+                  minHeight: '64px',
+                  touchAction: 'manipulation',
                 }}
               >
-                <span className="text-3xl">{m.emoji}</span>
-                <span className="text-[11px] font-semibold">{m.label}</span>
+                <span className="text-2xl sm:text-3xl">{m.emoji}</span>
+                <span className="text-[10px] sm:text-[11px] font-semibold">{m.label}</span>
               </motion.button>
             ))}
           </div>
@@ -114,16 +115,18 @@ export default function CheckInPage() {
           <label className="block text-xs font-semibold mb-2 text-center" style={{ color: 'var(--color-text-muted)' }}>
             Energy Level: <strong style={{ color: 'var(--color-primary)' }}>{energy} / 10</strong>
           </label>
-          <div className="flex gap-1.5 justify-between">
+          <div className="grid grid-cols-5 sm:flex gap-1.5 justify-between mb-2">
             {ENERGY_LEVELS.map(v => (
               <button
                 key={v}
                 onClick={() => setEnergy(v)}
-                className="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all"
+                className="py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: energy === v ? 'var(--color-primary)' : 'var(--color-surface)',
                   color: energy === v ? 'white' : 'var(--color-text)',
                   border: `1.5px solid ${energy === v ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {v}
@@ -143,16 +146,18 @@ export default function CheckInPage() {
           <label className="block text-xs font-semibold mb-2 text-center" style={{ color: 'var(--color-text-muted)' }}>
             Focus Ability Today: <strong style={{ color: 'var(--color-primary)' }}>{focus} / 10</strong>
           </label>
-          <div className="flex gap-1.5 justify-between mb-6">
+          <div className="grid grid-cols-5 sm:flex gap-1.5 justify-between mb-6">
             {FOCUS_LEVELS.map(v => (
               <button
                 key={v}
                 onClick={() => setFocus(v)}
-                className="flex-1 py-2.5 rounded-xl text-xs font-bold transition-all"
+                className="py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: focus === v ? 'var(--color-primary)' : 'var(--color-surface)',
                   color: focus === v ? 'white' : 'var(--color-text)',
                   border: `1.5px solid ${focus === v ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {v}
@@ -168,11 +173,13 @@ export default function CheckInPage() {
               <button
                 key={q}
                 onClick={() => setSleepQuality(q)}
-                className="py-2.5 px-3 rounded-xl text-xs font-medium transition-all"
+                className="py-2.5 px-3 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: sleepQuality === q ? 'var(--color-accent-2)' : 'var(--color-surface)',
                   color: sleepQuality === q ? 'var(--color-primary)' : 'var(--color-text)',
                   border: `1.5px solid ${sleepQuality === q ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {q}
@@ -188,11 +195,13 @@ export default function CheckInPage() {
               <button
                 key={r}
                 onClick={() => setWakeRefreshed(r)}
-                className="py-2 px-3 rounded-xl text-xs font-medium transition-all"
+                className="py-2 px-2 sm:px-3 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-center text-center"
                 style={{
                   background: wakeRefreshed === r ? 'var(--color-accent-2)' : 'var(--color-surface)',
                   color: wakeRefreshed === r ? 'var(--color-primary)' : 'var(--color-text)',
                   border: `1.5px solid ${wakeRefreshed === r ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {r}
@@ -212,16 +221,18 @@ export default function CheckInPage() {
           <label className="block text-xs font-semibold mb-2" style={{ color: 'var(--color-text-muted)' }}>
             Approximate Screen Time Today
           </label>
-          <div className="grid grid-cols-4 gap-2 mb-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
             {SCREEN_TIMES.map(st => (
               <button
                 key={st}
                 onClick={() => setScreenTime(st)}
-                className="py-2 px-2 rounded-xl text-xs font-medium transition-all"
+                className="py-2 px-2 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: screenTime === st ? 'var(--color-accent-2)' : 'var(--color-surface)',
                   color: screenTime === st ? 'var(--color-primary)' : 'var(--color-text)',
                   border: `1.5px solid ${screenTime === st ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {st}
@@ -237,11 +248,13 @@ export default function CheckInPage() {
               <button
                 key={nl}
                 onClick={() => setNotifInterrupt(nl)}
-                className="py-2 px-3 rounded-xl text-xs font-medium transition-all"
+                className="py-2 px-2 sm:px-3 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: notifInterrupt === nl ? 'var(--color-accent-2)' : 'var(--color-surface)',
                   color: notifInterrupt === nl ? 'var(--color-primary)' : 'var(--color-text)',
                   border: `1.5px solid ${notifInterrupt === nl ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {nl}
@@ -252,16 +265,18 @@ export default function CheckInPage() {
           <label className="block text-xs font-semibold mb-2" style={{ color: 'var(--color-text-muted)' }}>
             Biggest Distraction Source Today
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {DISTRACTIONS.map(d => (
               <button
                 key={d}
                 onClick={() => setDistraction(d)}
-                className="py-2 px-3 rounded-xl text-xs font-medium transition-all"
+                className="py-2 px-3 rounded-xl text-xs font-medium transition-all cursor-pointer flex items-center justify-center"
                 style={{
                   background: distraction === d ? 'var(--color-primary)' : 'var(--color-surface)',
                   color: distraction === d ? 'white' : 'var(--color-text)',
                   border: `1.5px solid ${distraction === d ? 'var(--color-primary)' : 'var(--color-border)'}`,
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
               >
                 {d}
@@ -322,7 +337,7 @@ export default function CheckInPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.3 }}
-            className="glass p-7 md:p-9 shadow-lg"
+            className="glass p-4 sm:p-7 md:p-9 shadow-lg"
           >
             <div className="text-center mb-6">
               <span
@@ -334,7 +349,7 @@ export default function CheckInPage() {
               <h2
                 style={{
                   fontFamily: 'var(--font-serif)',
-                  fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
+                  fontSize: 'clamp(1.15rem, 3vw, 1.45rem)',
                   color: 'var(--color-text)',
                   marginBottom: '0.35rem',
                 }}
@@ -353,7 +368,8 @@ export default function CheckInPage() {
               {step > 0 ? (
                 <button
                   onClick={() => setStep(s => s - 1)}
-                  className="btn-secondary text-xs py-2 px-3 flex items-center gap-1"
+                  className="btn-secondary text-xs py-2 px-3.5 flex items-center gap-1 cursor-pointer"
+                  style={{ minHeight: '44px', touchAction: 'manipulation' }}
                 >
                   <ChevronLeft size={14} /> Back
                 </button>
@@ -364,14 +380,16 @@ export default function CheckInPage() {
               {step < steps.length - 1 ? (
                 <button
                   onClick={() => setStep(s => s + 1)}
-                  className="btn-primary text-xs py-2 px-4 flex items-center gap-1"
+                  className="btn-primary text-xs py-2 px-5 flex items-center gap-1 cursor-pointer"
+                  style={{ minHeight: '44px', touchAction: 'manipulation' }}
                 >
                   Continue <ChevronRight size={14} />
                 </button>
               ) : (
                 <button
                   onClick={handleSubmit}
-                  className="btn-primary text-xs py-2.5 px-5 flex items-center gap-1.5"
+                  className="btn-primary text-xs py-2.5 px-5 flex items-center gap-1.5 cursor-pointer"
+                  style={{ minHeight: '44px', touchAction: 'manipulation' }}
                 >
                   <Check size={15} /> Save Daily Check-In
                 </button>

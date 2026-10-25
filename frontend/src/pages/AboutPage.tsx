@@ -9,7 +9,7 @@ export default function AboutPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="glass p-8 md:p-12 shadow-xl"
+        className="glass p-5 sm:p-8 md:p-12 shadow-xl"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-inner" style={{ background: 'var(--color-accent-2)' }}>
@@ -73,11 +73,11 @@ export default function AboutPage() {
             micro-habits (like placing your phone in another room or introducing brief standing pauses).
           </p>
 
-          <div className="pt-6 border-t flex flex-wrap gap-4 items-center justify-between" style={{ borderColor: 'var(--color-border)' }}>
-            <Link to="/assessment" className="btn-primary text-xs py-2.5 px-6">
+          <div className="pt-6 border-t flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between" style={{ borderColor: 'var(--color-border)' }}>
+            <Link to="/assessment" className="btn-primary text-xs py-3 px-6 text-center justify-center min-h-[44px]">
               Begin Assessment <ArrowRight size={14} />
             </Link>
-            <Link to="/" className="btn-secondary text-xs py-2.5 px-5">
+            <Link to="/" className="btn-secondary text-xs py-3 px-5 text-center justify-center min-h-[44px]">
               Back to Garden
             </Link>
           </div>

@@ -39,28 +39,35 @@ export default function SettingsPage() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Sidebar */}
+        {/* Sidebar / Mobile Tabs */}
         <div className="md:col-span-1">
-          <div className="glass p-3">
+          <div
+            className="glass p-2 sm:p-3 flex md:flex-col gap-1.5 overflow-x-auto scrollbar-none"
+            style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
+            role="tablist"
+          >
             {SECTIONS_CONFIG.map((s, i) => (
               <motion.button
                 key={s.id}
                 {...cardAnim(i)}
                 onClick={() => setActiveSection(s.id)}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-1 last:mb-0 text-sm font-medium transition-all"
+                className="flex-shrink-0 md:w-full flex items-center gap-2 sm:gap-3 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer whitespace-nowrap"
                 style={{
                   background: activeSection === s.id ? 'var(--color-primary)' : 'transparent',
                   color: activeSection === s.id ? 'white' : 'var(--color-text-muted)',
                   border: 'none',
-                  cursor: 'pointer',
                   fontFamily: 'var(--font-sans)',
                   textAlign: 'left',
+                  minHeight: '44px',
+                  touchAction: 'manipulation',
                 }}
                 id={`settings-${s.id}`}
+                role="tab"
+                aria-selected={activeSection === s.id}
               >
                 <s.icon size={16} />
-                {s.label}
-                {activeSection !== s.id && <ChevronRight size={13} className="ml-auto" />}
+                <span>{s.label}</span>
+                {activeSection !== s.id && <ChevronRight size={13} className="ml-auto hidden md:inline" />}
               </motion.button>
             ))}
           </div>

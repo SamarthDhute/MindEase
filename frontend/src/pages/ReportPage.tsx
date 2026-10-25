@@ -167,31 +167,29 @@ export default function ReportPage() {
       >
         <LevelBadge level={report.attention_interference_level} />
 
-        <div className="mt-8 flex justify-center items-center gap-8 md:gap-14 pt-6 border-t" style={{ borderColor: 'var(--color-border)' }}>
-          <div>
-            <div className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
+        <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-6 pt-5 sm:pt-6 border-t" style={{ borderColor: 'var(--color-border)' }}>
+          <div className="text-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
               {report.confidence_percentage ? report.confidence_percentage.toFixed(1) : '74.3'}%
             </div>
-            <div className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+            <div className="text-[10px] sm:text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
               Prediction Confidence
             </div>
           </div>
-          <div className="w-px h-8" style={{ background: 'var(--color-border)' }} />
-          <div>
-            <div className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
+          <div className="text-center border-x px-1" style={{ borderColor: 'var(--color-border)' }}>
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
               {report.contributing_factors?.length || 4}
             </div>
-            <div className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
-              Key Influencing Factors
+            <div className="text-[10px] sm:text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+              Influencing Factors
             </div>
           </div>
-          <div className="w-px h-8" style={{ background: 'var(--color-border)' }} />
-          <div>
-            <div className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
+          <div className="text-center">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-serif)' }}>
               {report.personalized_suggestions?.length || 4}
             </div>
-            <div className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
-              Personalized Suggestions
+            <div className="text-[10px] sm:text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>
+              Personal Suggestions
             </div>
           </div>
         </div>
@@ -341,22 +339,31 @@ export default function ReportPage() {
       </motion.div>
 
       {/* Bottom Actions */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
         <button
           onClick={() => {
             retakeAssessment()
             navigate('/assessment')
           }}
-          className="btn-secondary text-xs py-2 px-4 flex items-center gap-1.5"
+          className="btn-secondary text-xs py-2.5 px-4 flex items-center justify-center gap-1.5 w-full sm:w-auto cursor-pointer"
+          style={{ minHeight: '44px', touchAction: 'manipulation' }}
         >
           <RotateCcw size={13} /> Retake Full Assessment
         </button>
 
-        <div className="flex gap-3">
-          <Link to="/checkin" className="btn-secondary text-xs py-2.5 px-4 flex items-center gap-1.5">
+        <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
+          <Link
+            to="/checkin"
+            className="btn-secondary text-xs py-2.5 px-4 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+            style={{ minHeight: '44px', touchAction: 'manipulation' }}
+          >
             <Calendar size={13} /> Daily Check-in
           </Link>
-          <Link to="/dashboard" className="btn-primary text-xs py-2.5 px-5">
+          <Link
+            to="/dashboard"
+            className="btn-primary text-xs py-2.5 px-5 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+            style={{ minHeight: '44px', touchAction: 'manipulation' }}
+          >
             Open Dashboard <ArrowRight size={14} />
           </Link>
         </div>

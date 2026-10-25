@@ -159,29 +159,29 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-col sm:flex-row gap-2.5 w-full sm:w-auto">
             <Link
               to="/checkin"
-              className="btn-primary text-xs py-2.5 px-4 shadow-md flex items-center gap-1.5"
+              className="btn-primary text-xs py-2.5 px-4 shadow-md flex items-center justify-center gap-1.5 w-full sm:w-auto"
               id="dashboard-checkin-btn"
-              style={{ background: 'white', color: 'var(--color-primary)' }}
+              style={{ background: 'white', color: 'var(--color-primary)', minHeight: '44px', touchAction: 'manipulation' }}
             >
               <Calendar size={14} /> 1-Min Daily Check-in
             </Link>
             {!currentUser?.assessmentCompleted ? (
               <Link
                 to="/assessment"
-                className="btn-secondary text-xs py-2.5 px-4"
+                className="btn-secondary text-xs py-2.5 px-4 flex items-center justify-center w-full sm:w-auto"
                 id="dashboard-assess-btn"
-                style={{ background: 'transparent', color: 'white', borderColor: 'white' }}
+                style={{ background: 'transparent', color: 'white', borderColor: 'white', minHeight: '44px', touchAction: 'manipulation' }}
               >
                 Take Baseline Assessment →
               </Link>
             ) : (
               <Link
                 to="/cognitive"
-                className="btn-secondary text-xs py-2.5 px-4 flex items-center gap-1.5"
-                style={{ background: 'transparent', color: 'white', borderColor: 'white' }}
+                className="btn-secondary text-xs py-2.5 px-4 flex items-center justify-center gap-1.5 w-full sm:w-auto"
+                style={{ background: 'transparent', color: 'white', borderColor: 'white', minHeight: '44px', touchAction: 'manipulation' }}
               >
                 <Gamepad2 size={14} /> Cognitive Mini-Games
               </Link>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
       </motion.div>
 
       {/* Stats Summary Bar */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mb-6 sm:mb-8">
         {[
           {
             icon: Flame,
@@ -224,20 +224,20 @@ export default function DashboardPage() {
             hint: 'Reaction speed index',
           },
         ].map((s, i) => (
-          <motion.div key={i} className="glass p-5 text-center shadow-sm" {...cardAnim(i)}>
-            <div className="flex items-center justify-center mb-2">
-              <s.icon size={20} style={{ color: s.color }} />
+          <motion.div key={i} className="glass p-3.5 sm:p-5 text-center shadow-sm" {...cardAnim(i)}>
+            <div className="flex items-center justify-center mb-1 sm:mb-2">
+              <s.icon size={18} style={{ color: s.color }} />
             </div>
             <div
-              className="text-xl md:text-2xl font-bold"
+              className="text-lg sm:text-2xl font-bold truncate"
               style={{ color: 'var(--color-text)', fontFamily: 'var(--font-serif)' }}
             >
               {s.value}
             </div>
-            <div className="text-xs font-semibold mt-0.5" style={{ color: 'var(--color-primary)' }}>
+            <div className="text-[11px] sm:text-xs font-semibold mt-0.5 truncate" style={{ color: 'var(--color-primary)' }}>
               {s.label}
             </div>
-            <div className="text-[11px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>
+            <div className="text-[10px] sm:text-[11px] mt-0.5 truncate" style={{ color: 'var(--color-text-muted)' }}>
               {s.hint}
             </div>
           </motion.div>
@@ -269,7 +269,7 @@ export default function DashboardPage() {
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl shadow-inner"
                 style={{ background: 'var(--color-accent-2)' }}
               >
-                {level === 'Minimal' ? '🌿' : level === 'Moderate' ? '🌤' : '🌧'}
+                {(level === 'Minimal' || level === 'Low') ? '🌿' : level === 'Moderate' ? '🌤' : '🌧'}
               </div>
               <h3 className="font-bold text-base" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-serif)' }}>
                 {profile.desc}

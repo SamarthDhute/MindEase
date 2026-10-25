@@ -144,20 +144,22 @@ export default function ProgressPage() {
       </motion.div>
 
       {/* Period Selector & Quick Action */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div className="flex gap-2 p-1 rounded-xl" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6">
+        <div className="flex gap-1 p-1 rounded-xl overflow-x-auto w-full sm:w-auto justify-between sm:justify-start" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
           {[
-            { id: '7d', label: 'Last 7 Days' },
-            { id: '30d', label: 'Last 30 Days' },
-            { id: 'all', label: `All Time (${rawCheckIns.length})` },
+            { id: '7d', label: '7 Days' },
+            { id: '30d', label: '30 Days' },
+            { id: 'all', label: `All (${rawCheckIns.length})` },
           ].map(p => (
             <button
               key={p.id}
               onClick={() => setPeriod(p.id as Period)}
-              className="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all"
+              className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer text-center"
               style={{
                 background: period === p.id ? 'var(--color-primary)' : 'transparent',
                 color: period === p.id ? 'white' : 'var(--color-text-muted)',
+                touchAction: 'manipulation',
+                minHeight: '36px',
               }}
             >
               {p.label}
@@ -165,7 +167,11 @@ export default function ProgressPage() {
           ))}
         </div>
 
-        <Link to="/checkin" className="btn-primary text-xs py-2 px-4 flex items-center gap-1.5 shadow-sm">
+        <Link
+          to="/checkin"
+          className="btn-primary text-xs py-2.5 px-4 flex items-center justify-center gap-1.5 shadow-sm w-full sm:w-auto"
+          style={{ minHeight: '44px', touchAction: 'manipulation' }}
+        >
           <Calendar size={14} /> Log Today's Check-in
         </Link>
       </div>

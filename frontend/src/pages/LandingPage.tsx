@@ -160,11 +160,11 @@ export default function LandingPage() {
             assessment and interactive cognitive mini-games.
           </motion.p>
 
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-4 justify-center mb-10">
-            <Link to="/register" className="btn-primary" id="hero-start-btn">
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-10 w-full">
+            <Link to="/register" className="btn-primary w-full sm:w-auto justify-center" id="hero-start-btn">
               Begin Free Assessment <ArrowRight size={17} />
             </Link>
-            <Link to="/cognitive" className="btn-secondary" id="hero-cognitive-btn">
+            <Link to="/cognitive" className="btn-secondary w-full sm:w-auto justify-center" id="hero-cognitive-btn">
               Play Cognitive Tests <Brain size={17} />
             </Link>
           </motion.div>
@@ -173,17 +173,17 @@ export default function LandingPage() {
             <p className="text-xs mb-3" style={{ color: 'var(--color-text-muted)' }}>
               Non-clinical digital wellness research tool · 100% Client-side privacy
             </p>
-            <div className="flex justify-center gap-8 sm:gap-14">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 max-w-xl mx-auto">
               {[
                 { stat: '34+', label: 'Multimodal Signals' },
                 { stat: '6', label: 'Cognitive Mini-Games' },
                 { stat: '100%', label: 'Private & Local' },
                 { stat: '0', label: 'Confusing ML Jargon' },
               ].map((item, i) => (
-                <div key={i} className="text-center">
+                <div key={i} className="text-center p-2 rounded-xl" style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}>
                   <div
                     style={{
-                      fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
+                      fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
                       fontWeight: 700,
                       color: 'var(--color-primary)',
                       fontFamily: 'var(--font-serif)',
@@ -191,7 +191,7 @@ export default function LandingPage() {
                   >
                     {item.stat}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.label}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{item.label}</div>
                 </div>
               ))}
             </div>
@@ -750,10 +750,11 @@ export default function LandingPage() {
                   onClick={() => setTheme(t.id)}
                   className="relative rounded-2xl overflow-hidden text-left"
                   style={{
-                    height: '160px',
+                    height: '140px',
                     border: theme === t.id ? '2.5px solid var(--color-primary)' : '2px solid var(--color-border)',
                     cursor: 'pointer',
                     background: 'none',
+                    touchAction: 'manipulation',
                   }}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -840,11 +841,11 @@ export default function LandingPage() {
           <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem', lineHeight: 1.6 }}>
             Takes about 4 minutes to complete your baseline assessment and cognitive tests.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/register" className="btn-primary" id="cta-start-btn">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full">
+            <Link to="/register" className="btn-primary w-full sm:w-auto justify-center" id="cta-start-btn">
               Begin Baseline Assessment <ArrowRight size={17} />
             </Link>
-            <Link to="/dashboard" className="btn-secondary" id="cta-dash-btn">
+            <Link to="/dashboard" className="btn-secondary w-full sm:w-auto justify-center" id="cta-dash-btn">
               Go to Dashboard
             </Link>
           </div>

@@ -71,7 +71,7 @@ export default function AuthPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-12"
+      className="min-h-[100dvh] flex items-center justify-center px-4 py-8 sm:py-12"
       style={{ background: 'var(--gradient-hero)' }}
     >
       {/* Background illustration */}
@@ -91,9 +91,9 @@ export default function AuthPage() {
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] as const }}
         className="relative z-10 w-full max-w-md"
       >
-        <div className="glass p-8 md:p-10 shadow-xl">
+        <div className="glass p-5 sm:p-8 md:p-10 shadow-xl">
           {/* Logo */}
-          <div className="flex items-center justify-center gap-2 mb-8">
+          <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8">
             <Leaf size={28} style={{ color: 'var(--color-primary)' }} />
             <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 600, color: 'var(--color-primary)' }}>
               MindEase
@@ -161,10 +161,12 @@ export default function AuthPage() {
                     <Mail size={16} className="absolute left-3.5 top-3.5" style={{ color: 'var(--color-text-muted)' }} />
                     <input
                       type="email"
+                      inputMode="email"
+                      autoComplete="email"
                       {...loginForm.register('email', { required: true })}
                       placeholder="you@example.com"
                       className="input-field"
-                      style={{ paddingLeft: '38px' }}
+                      style={{ paddingLeft: '38px', minHeight: '44px' }}
                       id="login-email"
                     />
                   </div>
@@ -178,24 +180,26 @@ export default function AuthPage() {
                     <Lock size={16} className="absolute left-3.5 top-3.5" style={{ color: 'var(--color-text-muted)' }} />
                     <input
                       type={showPass ? 'text' : 'password'}
+                      autoComplete="current-password"
                       {...loginForm.register('password')}
                       placeholder="••••••••"
                       className="input-field"
-                      style={{ paddingLeft: '38px', paddingRight: '38px' }}
+                      style={{ paddingLeft: '38px', paddingRight: '38px', minHeight: '44px' }}
                       id="login-password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPass(!showPass)}
-                      className="absolute right-3.5 top-3.5 text-xs"
+                      className="absolute right-3.5 top-3.5 text-xs p-1"
                       style={{ color: 'var(--color-text-muted)' }}
+                      aria-label={showPass ? 'Hide password' : 'Show password'}
                     >
                       {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center text-xs pt-1">
+                <div className="flex flex-wrap justify-between items-center gap-2 text-xs pt-1">
                   <span style={{ color: 'var(--color-text-muted)' }}>Instant research profile access</span>
                   <button
                     type="button"
@@ -203,14 +207,14 @@ export default function AuthPage() {
                       login('demo@mindease.wellness', 'Guest Learner')
                       navigate('/dashboard')
                     }}
-                    className="text-xs font-semibold"
+                    className="text-xs font-semibold py-1"
                     style={{ color: 'var(--color-primary)' }}
                   >
                     Use Demo Profile →
                   </button>
                 </div>
 
-                <button type="submit" className="btn-primary w-full justify-center mt-2" id="login-submit">
+                <button type="submit" className="btn-primary w-full justify-center mt-2 min-h-[44px]" id="login-submit">
                   Sign In <ArrowRight size={16} />
                 </button>
               </motion.form>
@@ -231,10 +235,11 @@ export default function AuthPage() {
                     <User size={16} className="absolute left-3.5 top-3.5" style={{ color: 'var(--color-text-muted)' }} />
                     <input
                       type="text"
+                      autoComplete="name"
                       {...registerForm.register('name', { required: true })}
                       placeholder="e.g. Alex Green"
                       className="input-field"
-                      style={{ paddingLeft: '38px' }}
+                      style={{ paddingLeft: '38px', minHeight: '44px' }}
                       id="register-name"
                     />
                   </div>
@@ -248,10 +253,12 @@ export default function AuthPage() {
                     <Mail size={16} className="absolute left-3.5 top-3.5" style={{ color: 'var(--color-text-muted)' }} />
                     <input
                       type="email"
+                      inputMode="email"
+                      autoComplete="email"
                       {...registerForm.register('email', { required: true })}
                       placeholder="you@example.com"
                       className="input-field"
-                      style={{ paddingLeft: '38px' }}
+                      style={{ paddingLeft: '38px', minHeight: '44px' }}
                       id="register-email"
                     />
                   </div>
@@ -265,10 +272,11 @@ export default function AuthPage() {
                     <Lock size={16} className="absolute left-3.5 top-3.5" style={{ color: 'var(--color-text-muted)' }} />
                     <input
                       type={showPass ? 'text' : 'password'}
+                      autoComplete="new-password"
                       {...registerForm.register('password')}
                       placeholder="Create a password"
                       className="input-field"
-                      style={{ paddingLeft: '38px' }}
+                      style={{ paddingLeft: '38px', minHeight: '44px' }}
                       id="register-password"
                     />
                   </div>
@@ -281,7 +289,7 @@ export default function AuthPage() {
                   </span>
                 </div>
 
-                <button type="submit" className="btn-primary w-full justify-center mt-2" id="register-submit">
+                <button type="submit" className="btn-primary w-full justify-center mt-2 min-h-[44px]" id="register-submit">
                   Start My Wellness Journey <ArrowRight size={16} />
                 </button>
               </motion.form>

@@ -223,11 +223,11 @@ export default function AssessmentPage() {
             animate="center"
             exit="exit"
           >
-            <div className="glass p-7 md:p-9 shadow-lg">
+            <div className="glass p-4 sm:p-7 md:p-9 shadow-lg">
               {/* Question header */}
-              <div className="flex items-start gap-4 mb-7">
+              <div className="flex items-start gap-3 sm:gap-4 mb-5 sm:mb-7">
                 <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 shadow-sm"
                   style={{ background: 'var(--color-accent-2)' }}
                 >
                   {question.icon}
@@ -248,7 +248,7 @@ export default function AssessmentPage() {
                   </div>
                   <h2
                     style={{
-                      fontSize: 'clamp(1.15rem, 3vw, 1.4rem)',
+                      fontSize: 'clamp(1.05rem, 3vw, 1.35rem)',
                       fontWeight: 600,
                       color: 'var(--color-text)',
                       lineHeight: 1.35,
@@ -258,7 +258,7 @@ export default function AssessmentPage() {
                     {question.question}
                   </h2>
                   {question.hint && (
-                    <p className="mt-1.5 text-xs md:text-sm" style={{ color: 'var(--color-text-muted)' }}>
+                    <p className="mt-1 text-xs md:text-sm" style={{ color: 'var(--color-text-muted)' }}>
                       {question.hint}
                     </p>
                   )}
@@ -267,7 +267,7 @@ export default function AssessmentPage() {
 
               {/* Single Select Options */}
               {question.type === 'select' && question.options && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {question.options.map(option => {
                     const selected = currentValue === option
                     return (
@@ -276,14 +276,15 @@ export default function AssessmentPage() {
                         onClick={() => selectOption(option)}
                         whileHover={{ scale: 1.015 }}
                         whileTap={{ scale: 0.985 }}
-                        className="flex items-center gap-3 p-3.5 rounded-xl text-left transition-all"
+                        className="flex items-center gap-3 p-3.5 rounded-xl text-left transition-all cursor-pointer"
                         style={{
                           background: selected ? 'var(--color-primary)' : 'var(--color-surface)',
                           color: selected ? 'white' : 'var(--color-text)',
                           border: `2px solid ${selected ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                          cursor: 'pointer',
+                          minHeight: '48px',
+                          touchAction: 'manipulation',
                           fontFamily: 'var(--font-sans)',
-                          fontSize: '0.92rem',
+                          fontSize: '0.9rem',
                           fontWeight: 500,
                         }}
                         id={`option-${option.replace(/\s+/g, '-').toLowerCase()}`}
@@ -308,7 +309,7 @@ export default function AssessmentPage() {
 
               {/* Multi-Select Options */}
               {question.type === 'multi-select' && question.options && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {question.options.map(option => {
                     const selectedList = ((answers[question.featureKey] as string) || '').split(',')
                     const isSelected = selectedList.includes(option)
@@ -318,14 +319,15 @@ export default function AssessmentPage() {
                         onClick={() => toggleMultiSelectOption(option)}
                         whileHover={{ scale: 1.015 }}
                         whileTap={{ scale: 0.985 }}
-                        className="flex items-center gap-3 p-3.5 rounded-xl text-left transition-all"
+                        className="flex items-center gap-3 p-3.5 rounded-xl text-left transition-all cursor-pointer"
                         style={{
                           background: isSelected ? 'var(--color-primary)' : 'var(--color-surface)',
                           color: isSelected ? 'white' : 'var(--color-text)',
                           border: `2px solid ${isSelected ? 'var(--color-primary)' : 'var(--color-border)'}`,
-                          cursor: 'pointer',
+                          minHeight: '48px',
+                          touchAction: 'manipulation',
                           fontFamily: 'var(--font-sans)',
-                          fontSize: '0.92rem',
+                          fontSize: '0.9rem',
                           fontWeight: 500,
                         }}
                       >
@@ -349,25 +351,27 @@ export default function AssessmentPage() {
         </AnimatePresence>
 
         {/* Navigation Controls */}
-        <div className="flex items-center justify-between mt-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mt-6">
           <motion.button
             onClick={goPrev}
             disabled={currentIdx === 0}
             whileHover={{ scale: currentIdx > 0 ? 1.04 : 1 }}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all shadow-sm"
             style={{
               background: 'var(--color-surface)',
               color: currentIdx === 0 ? 'var(--color-border)' : 'var(--color-text-muted)',
               border: '1.5px solid var(--color-border)',
               cursor: currentIdx === 0 ? 'not-allowed' : 'pointer',
               fontFamily: 'var(--font-sans)',
+              minHeight: '44px',
+              touchAction: 'manipulation',
             }}
             id="assessment-prev-btn"
           >
             <ChevronLeft size={16} /> Previous
           </motion.button>
 
-          <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+          <span className="text-xs order-last sm:order-none w-full sm:w-auto text-center" style={{ color: 'var(--color-text-muted)' }}>
             {Object.keys(answers).filter(k => answers[k] !== undefined && answers[k] !== '').length} of {totalQ} completed
           </span>
 
@@ -376,6 +380,7 @@ export default function AssessmentPage() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
             className="btn-primary"
+            style={{ minHeight: '44px', touchAction: 'manipulation' }}
             id="assessment-next-btn"
           >
             {currentIdx === totalQ - 1 ? (
