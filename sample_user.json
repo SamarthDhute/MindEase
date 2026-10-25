@@ -1,0 +1,12 @@
+{
+  "age_group": "18-25",
+  "sleep_quality": "Poor",
+  "daily_screen_time": "6-8 hours",
+  "app_switching_frequency": "Very Often",
+  "notifications_interrupt_work": "Often",
+  "mind_wandering_frequency": "Often",
+  "mental_overload": "High",
+  "stress_level": "High",
+  "focus_duration": "Less than 20 minutes",
+  "task_switching_behavior": "Frequently"
+}
