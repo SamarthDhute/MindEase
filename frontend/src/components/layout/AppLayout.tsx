@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import ParticleBackground from '../ui/ParticleBackground'
+import OfflineBanner from '../ui/OfflineBanner'
+import InstallPrompt from '../ui/InstallPrompt'
 
 const pageVariants = {
   initial:   { opacity: 0, y: 18 },
@@ -27,8 +29,11 @@ export default function AppLayout() {
     >
       <ParticleBackground />
       <Navbar />
+      <div style={{ paddingTop: '64px', width: '100%' }}>
+        <OfflineBanner />
+      </div>
 
-      <main style={{ flex: 1, width: '100%', paddingTop: '64px', display: 'flex', flexDirection: 'column' }}>
+      <main style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column' }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -44,6 +49,7 @@ export default function AppLayout() {
       </main>
 
       <Footer />
+      <InstallPrompt />
     </div>
   )
 }

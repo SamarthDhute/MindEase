@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
 import { THEMES } from '../types'
-import { Sun, Moon, Monitor, Bell, Shield, Palette, User, ChevronRight } from 'lucide-react'
+import { Sun, Moon, Monitor, Bell, Shield, Palette, User, ChevronRight, Smartphone, Download, Check, Wifi, HardDrive } from 'lucide-react'
 import type { Mode } from '../types'
 
 const MODE_OPTIONS: { value: Mode; icon: typeof Sun; label: string; desc: string }[] = [
@@ -12,10 +12,11 @@ const MODE_OPTIONS: { value: Mode; icon: typeof Sun; label: string; desc: string
 ]
 
 const SECTIONS_CONFIG = [
-  { icon: Palette, label: 'Appearance',       id: 'appearance' },
-  { icon: Bell,    label: 'Notifications',    id: 'notifications' },
-  { icon: User,    label: 'Profile',          id: 'profile' },
-  { icon: Shield,  label: 'Privacy & Data',   id: 'privacy' },
+  { icon: Palette,    label: 'Appearance',       id: 'appearance' },
+  { icon: Smartphone, label: 'App & Offline',    id: 'pwa' },
+  { icon: Bell,       label: 'Notifications',    id: 'notifications' },
+  { icon: User,       label: 'Profile',          id: 'profile' },
+  { icon: Shield,     label: 'Privacy & Data',   id: 'privacy' },
 ]
 
 export default function SettingsPage() {
@@ -131,6 +132,97 @@ export default function SettingsPage() {
                       <div className="text-xs text-center" style={{ color: mode === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--color-text-muted)' }}>{opt.desc}</div>
                     </motion.button>
                   ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeSection === 'pwa' && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+              <div className="glass p-6">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center text-white" style={{ background: 'var(--color-primary)' }}>
+                    <Smartphone size={20} />
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-base" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-serif)' }}>
+                      Progressive Web App (PWA)
+                    </h2>
+                    <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                      Install MindEase for offline resilience and full-screen experience
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3.5">
+                  {/* Status pills */}
+                  <div className="p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3" style={{ background: 'var(--color-surface-2)', borderColor: 'var(--color-border)' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-accent-2)', color: 'var(--color-primary)' }}>
+                        <HardDrive size={16} />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold" style={{ color: 'var(--color-text)' }}>Display Mode</div>
+                        <div className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+                          {window.matchMedia('(display-mode: standalone)').matches ? 'Installed Standalone App 🌿' : 'Browser Web Tab'}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] px-2.5 py-1 rounded-full font-medium" style={{ background: 'var(--color-accent-2)', color: 'var(--color-primary)' }}>
+                        {window.matchMedia('(display-mode: standalone)').matches ? 'Active PWA' : 'Web Mode'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3" style={{ background: 'var(--color-surface-2)', borderColor: 'var(--color-border)' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--color-accent-2)', color: 'var(--color-primary)' }}>
+                        <Wifi size={16} />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold" style={{ color: 'var(--color-text)' }}>Connection Status</div>
+                        <div className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>
+                          {navigator.onLine ? 'Connected to MindEase Cloud Services' : 'Offline — Operating from cache'}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-[11px] px-2.5 py-1 rounded-full font-medium" style={{ background: navigator.onLine ? 'rgba(76, 175, 80, 0.15)' : 'rgba(244, 67, 54, 0.15)', color: navigator.onLine ? '#4caf50' : '#f44336' }}>
+                      {navigator.onLine ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
+
+                  {/* Offline Capabilities Explanation */}
+                  <div className="p-4 rounded-xl border space-y-2" style={{ background: 'var(--color-accent-2)', borderColor: 'var(--color-border)' }}>
+                    <div className="font-bold text-xs" style={{ color: 'var(--color-text)' }}>🌿 Offline Capabilities</div>
+                    <ul className="text-xs space-y-1" style={{ color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+                      <li>✓ Review past assessment reports and longitudinal progress charts</li>
+                      <li>✓ Complete assessment drafts safely saved to local device storage</li>
+                      <li>✓ Play all 6 psychometric cognitive mini-games</li>
+                      <li>✓ Log daily wellness check-ins and maintain streaks</li>
+                      <li>✓ Switch between all 6 nature themes with particle effects</li>
+                      <li className="pt-1 text-[11px] opacity-80">* Note: Server-backed neural network predictions automatically fallback to the local sensitivity estimation engine if submitted while offline.</li>
+                    </ul>
+                  </div>
+
+                  <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={() => {
+                        alert('To install MindEase:\n• On Android: Tap browser ⋮ menu -> "Install app" or "Add to Home screen"\n• On Desktop: Click the ⊕ install icon in the address bar.')
+                      }}
+                      className="btn-primary text-xs py-2.5 px-4 justify-center min-h-[44px]"
+                      id="pwa-settings-install-btn"
+                    >
+                      <Download size={14} /> Install Application
+                    </button>
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="btn-secondary text-xs py-2.5 px-4 justify-center min-h-[44px]"
+                      id="pwa-settings-refresh-btn"
+                    >
+                      Check for Updates / Refresh Cache
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
