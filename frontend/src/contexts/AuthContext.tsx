@@ -9,6 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   login: (email: string, name?: string) => UserAccount
   register: (name: string, email: string) => UserAccount
+  loginWithOAuth: (provider: 'google' | 'github', oauthData: { email: string; name: string; avatar?: string }) => UserAccount
   logout: () => void
   saveAssessment: (responses: Record<string, string | number>, report: AssessmentResponse) => void
   saveCheckIn: (entry: Omit<CheckInEntry, 'id' | 'timestamp'>) => void
@@ -226,6 +227,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return newUser
   }
 
+  const loginWithOAuth = (
+    provider: 'google' | 'github',
+    oauthData: { email: string; name: string; avatar?: string }
+  ): UserAccount => {
+    const email = oauthData.email.trim().toLowerCase()
+    const existing = users.find(u => u.email.toLowerCase() === email)
+
+    if (existing) {
+      const updated: UserAccount = {
+        ...existing,
+        name: existing.name || oauthData.name,
+        avatar: oauthData.avatar || existing.avatar,
+        provider,
+      }
+      setUsers(prev => prev.map(u => (u.id === existing.id ? updated : u)))
+      setCurrentUserId(existing.id)
+      return updated
+    }
+
+    const newUser: UserAccount = {
+      id: `oauth-${provider}-${Date.now()}`,
+      name: oauthData.name.trim() || `${provider === 'google' ? 'Google' : 'GitHub'} User`,
+      email,
+      avatar: oauthData.avatar,
+      provider,
+      joinedAt: new Date().toISOString(),
+      assessmentCompleted: false,
+      dailyCheckIns: [],
+      streak: 1,
+    }
+
+    setUsers(prev => [...prev.filter(u => u.email !== newUser.email), newUser])
+    setCurrentUserId(newUser.id)
+    return newUser
+  }
+
   const logout = () => {
     setCurrentUserId(null)
   }
@@ -325,6 +362,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAuthenticated: !!currentUser,
         login,
         register,
+        loginWithOAuth,
         logout,
         saveAssessment,
         saveCheckIn,

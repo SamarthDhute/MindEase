@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from '../contexts/ThemeContext'
+import { useAuth } from '../contexts/AuthContext'
+import GoogleSignInButton from '../components/auth/GoogleSignInButton'
 import { THEMES } from '../types'
-import { Sun, Moon, Monitor, Bell, Shield, Palette, User, ChevronRight, Smartphone, Download, Check, Wifi, HardDrive } from 'lucide-react'
+import { Sun, Moon, Monitor, Bell, Shield, Palette, User, ChevronRight, Smartphone, Download, Check, Wifi, HardDrive, CheckCircle2 } from 'lucide-react'
 import type { Mode } from '../types'
 
 const MODE_OPTIONS: { value: Mode; icon: typeof Sun; label: string; desc: string }[] = [
@@ -21,9 +23,12 @@ const SECTIONS_CONFIG = [
 
 export default function SettingsPage() {
   const { theme, setTheme, mode, setMode } = useTheme()
+  const { currentUser, updateProfileName } = useAuth()
   const [activeSection, setActiveSection] = useState('appearance')
   const [notifications, setNotifications] = useState({ dailyReminder: true, weeklyReport: true, tips: false })
   const [reminderTime, setReminderTime] = useState('08:00')
+  const [profileName, setProfileName] = useState(currentUser?.name || 'MindEase Explorer')
+  const [saveSuccess, setSaveSuccess] = useState(false)
 
   const cardAnim = (i: number) => ({
     initial: { opacity: 0, x: -16 },
@@ -295,27 +300,115 @@ export default function SettingsPage() {
           )}
 
           {activeSection === 'profile' && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass p-6">
-              <h2 className="font-bold mb-6" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-serif)', fontSize: '1.2rem' }}>
-                Your Profile
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass p-6 space-y-6">
+              <h2 className="font-bold mb-4" style={{ color: 'var(--color-text)', fontFamily: 'var(--font-serif)', fontSize: '1.2rem' }}>
+                Your Profile &amp; Authentication
               </h2>
-              <div className="flex items-center gap-4 mb-7 p-4 rounded-xl" style={{ background: 'var(--color-accent-2)', border: '1px solid var(--color-border)' }}>
-                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl" style={{ background: 'var(--color-primary)' }}>
-                  🌿
+
+              <div className="flex items-center gap-4 p-4 rounded-xl" style={{ background: 'var(--color-accent-2)', border: '1px solid var(--color-border)' }}>
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-2xl overflow-hidden flex-shrink-0 shadow-sm"
+                  style={{ background: 'var(--color-primary)', color: 'white' }}
+                >
+                  {currentUser?.avatar ? (
+                    <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
+                  ) : (
+                    currentUser?.name ? currentUser.name.charAt(0).toUpperCase() : '🌿'
+                  )}
                 </div>
-                <div>
-                  <div className="font-semibold" style={{ color: 'var(--color-text)' }}>Guest User</div>
-                  <div className="text-sm" style={{ color: 'var(--color-text-muted)' }}>MindEase Member</div>
+                <div className="overflow-hidden flex-1">
+                  <div className="font-semibold text-base truncate" style={{ color: 'var(--color-text)' }}>
+                    {currentUser?.name || 'Guest User'}
+                  </div>
+                  <div className="text-xs truncate mb-1" style={{ color: 'var(--color-text-muted)' }}>
+                    {currentUser?.email || 'guest@mindease.wellness'}
+                  </div>
+                  {currentUser?.provider === 'google' ? (
+                    <span
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full"
+                      style={{ background: 'rgba(66, 133, 244, 0.15)', color: '#2b6cb0' }}
+                    >
+                      ✓ Signed in via Google
+                    </span>
+                  ) : (
+                    <span
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full"
+                      style={{ background: 'var(--color-surface)', color: 'var(--color-text-muted)' }}
+                    >
+                      Local Account
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className="space-y-4">
-                {['Name', 'Email'].map(field => (
-                  <div key={field}>
-                    <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-text)' }} htmlFor={`profile-${field.toLowerCase()}`}>{field}</label>
-                    <input id={`profile-${field.toLowerCase()}`} type={field === 'Email' ? 'email' : 'text'} className="input-field" placeholder={`Your ${field.toLowerCase()}`} />
+
+              {/* If not signed in via Google, offer Google Link */}
+              {currentUser?.provider !== 'google' && (
+                <div
+                  className="p-4 rounded-xl space-y-2.5"
+                  style={{ background: 'var(--color-surface-2)', border: '1px solid var(--color-border)' }}
+                >
+                  <div>
+                    <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
+                      Connect with Google
+                    </h3>
+                    <p className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
+                      Enable seamless 1-tap sign-in on your Android mobile device and web browser.
+                    </p>
                   </div>
-                ))}
-                <button className="btn-primary" id="profile-save-btn">Save Changes</button>
+                  <div className="pt-1 max-w-sm">
+                    <GoogleSignInButton label="Connect with Google (1-Tap)" isMobileContext={false} />
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-text)' }} htmlFor="profile-name">
+                    Display Name
+                  </label>
+                  <input
+                    id="profile-name"
+                    type="text"
+                    value={profileName}
+                    onChange={e => {
+                      setProfileName(e.target.value)
+                      setSaveSuccess(false)
+                    }}
+                    className="input-field"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--color-text)' }} htmlFor="profile-email">
+                    Email Address
+                  </label>
+                  <input
+                    id="profile-email"
+                    type="email"
+                    disabled
+                    value={currentUser?.email || ''}
+                    className="input-field opacity-75 cursor-not-allowed"
+                  />
+                </div>
+
+                <div className="flex items-center gap-3 pt-2">
+                  <button
+                    className="btn-primary"
+                    id="profile-save-btn"
+                    onClick={() => {
+                      updateProfileName(profileName)
+                      setSaveSuccess(true)
+                      setTimeout(() => setSaveSuccess(false), 2500)
+                    }}
+                  >
+                    Save Changes
+                  </button>
+                  {saveSuccess && (
+                    <span className="text-xs font-semibold text-emerald-600 flex items-center gap-1">
+                      <CheckCircle2 size={14} /> Profile updated!
+                    </span>
+                  )}
+                </div>
               </div>
             </motion.div>
           )}

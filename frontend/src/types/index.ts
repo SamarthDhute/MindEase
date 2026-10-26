@@ -94,6 +94,7 @@ export interface UserAccount {
   email: string
   password?: string
   avatar?: string
+  provider?: 'local' | 'google' | 'github'
   joinedAt: string
   assessmentCompleted: boolean
   assessmentResponses?: Record<string, string | number>

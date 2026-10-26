@@ -209,10 +209,14 @@ export default function Navbar() {
                 aria-label="User Account Menu"
               >
                 <div
-                  className="w-6 h-6 rounded-lg flex items-center justify-center font-bold text-xs"
+                  className="w-6 h-6 rounded-lg flex items-center justify-center font-bold text-xs overflow-hidden flex-shrink-0"
                   style={{ background: 'var(--color-primary)', color: 'white' }}
                 >
-                  {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'M'}
+                  {currentUser.avatar ? (
+                    <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
+                  ) : (
+                    currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'M'
+                  )}
                 </div>
                 <span className="max-w-[80px] md:max-w-[110px] truncate">{currentUser.name}</span>
                 <ChevronDown size={13} style={{ color: 'var(--color-text-muted)' }} />
@@ -233,10 +237,14 @@ export default function Navbar() {
                   >
                     <div className="flex items-center gap-3 pb-3 mb-2 border-b" style={{ borderColor: 'var(--color-border)' }}>
                       <div
-                        className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
+                        className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm overflow-hidden flex-shrink-0 shadow-sm"
                         style={{ background: 'var(--color-primary)', color: 'white' }}
                       >
-                        {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'M'}
+                        {currentUser.avatar ? (
+                          <img src={currentUser.avatar} alt={currentUser.name} className="w-full h-full object-cover" />
+                        ) : (
+                          currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'M'
+                        )}
                       </div>
                       <div className="overflow-hidden">
                         <div className="font-semibold text-sm truncate" style={{ color: 'var(--color-text)' }}>
@@ -245,6 +253,14 @@ export default function Navbar() {
                         <div className="text-xs truncate" style={{ color: 'var(--color-text-muted)' }}>
                           {currentUser.email}
                         </div>
+                        {currentUser.provider === 'google' && (
+                          <span
+                            className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded-full mt-0.5"
+                            style={{ background: 'rgba(66, 133, 244, 0.1)', color: '#2b6cb0' }}
+                          >
+                            ✓ Google Connected
+                          </span>
+                        )}
                       </div>
                     </div>
 

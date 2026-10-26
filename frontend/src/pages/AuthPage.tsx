@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { Eye, EyeOff, Leaf, ArrowRight, User, Mail, Lock, CheckCircle2 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import GoogleSignInButton from '../components/auth/GoogleSignInButton'
 
 type Tab = 'login' | 'register'
 
@@ -29,6 +30,15 @@ export default function AuthPage() {
   )
   const [showPass, setShowPass] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState<boolean>(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  )
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     if (location.pathname.includes('register')) {
@@ -93,12 +103,51 @@ export default function AuthPage() {
       >
         <div className="glass p-5 sm:p-8 md:p-10 shadow-xl">
           {/* Logo */}
-          <div className="flex items-center justify-center gap-2 mb-6 sm:mb-8">
+          <div className="flex items-center justify-center gap-2 mb-5 sm:mb-7">
             <Leaf size={28} style={{ color: 'var(--color-primary)' }} />
             <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', fontWeight: 600, color: 'var(--color-primary)' }}>
               MindEase
             </span>
           </div>
+
+          {/* Mobile First: Prominent 1-Tap Google Sign-In */}
+          {isMobile && (
+            <div
+              className="mb-5 p-3.5 rounded-2xl shadow-sm"
+              style={{
+                background: 'var(--color-surface-2)',
+                border: '1.5px solid var(--color-primary)',
+              }}
+            >
+              <div className="flex items-center justify-between mb-2 px-0.5">
+                <span
+                  className="text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5"
+                  style={{ color: 'var(--color-primary)' }}
+                >
+                  ⚡ Fast Mobile Sign-In
+                </span>
+                <span className="text-[10px] font-medium" style={{ color: 'var(--color-text-muted)' }}>
+                  1-Tap Instant Access
+                </span>
+              </div>
+              <GoogleSignInButton
+                isMobileContext={true}
+                label="Sign in with Google"
+                onSuccess={() => navigate('/dashboard')}
+              />
+              <div className="relative my-3 text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t" style={{ borderColor: 'var(--color-border)' }} />
+                </div>
+                <span
+                  className="relative px-3 text-[10px] uppercase font-bold tracking-wider"
+                  style={{ background: 'var(--color-surface-2)', color: 'var(--color-text-muted)' }}
+                >
+                  or continue with email
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* Tab switcher */}
           <div
@@ -295,8 +344,34 @@ export default function AuthPage() {
               </motion.form>
             )}
           </AnimatePresence>
+
+          {/* Desktop Only: Optional Google Sign-In */}
+          {!isMobile && (
+            <div className="mt-6 pt-5" style={{ borderTop: '1px solid var(--color-border)' }}>
+              <div className="flex items-center justify-between mb-2.5 px-0.5">
+                <span className="text-xs font-semibold" style={{ color: 'var(--color-text)' }}>
+                  Or continue with
+                </span>
+                <span
+                  className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                  style={{ background: 'var(--color-surface-2)', color: 'var(--color-text-muted)' }}
+                >
+                  Optional
+                </span>
+              </div>
+              <GoogleSignInButton
+                isMobileContext={false}
+                label="Continue with Google"
+                onSuccess={() => navigate('/dashboard')}
+              />
+              <p className="text-[11px] text-center mt-2" style={{ color: 'var(--color-text-muted)' }}>
+                Instant sign-in without password • One-tap access
+              </p>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>
   )
 }
+
